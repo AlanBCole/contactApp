@@ -4,8 +4,12 @@ export class ContactBook {
 
     ContactList: Contact[] = [];
 
-    addContact(name: string, phone: string) {
-        let newContact = new Contact(name, phone);
+    addContact(contactObject: Contact) {
+        let newContact = new Contact(contactObject.Name, contactObject.Phone);
         this.ContactList.push(newContact);
+    }
+
+    printContacts() {
+        this.ContactList.forEach(contact => console.log(`\nName: ${contact.Name}\nPhone: ${contact.Phone}`))
     }
 }
