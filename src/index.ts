@@ -8,7 +8,7 @@ const alansRolodex = new ContactBook('alans-rolodex');
 const aNewContact = new Contact('Jerry', '303.333.3030')
 
 alansRolodex.addContact(aNewContact);
-alansRolodex.printContacts();
+// alansRolodex.printContacts();
 
 
 

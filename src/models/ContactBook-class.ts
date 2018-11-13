@@ -19,6 +19,7 @@ export class ContactBook {
                 
                 this.contactList = contacts;
             })
+            .catch(err => console.log(err, 'initializeContact()'))
     }
     
     get contactList(): Contact[] {
@@ -37,9 +38,11 @@ export class ContactBook {
                 console.log(message);
                 this.printContacts()
             })
+            .catch(err => console.log(err, 'addContact()'))
     }
 
     printContacts() {
+        console.log(`${this.rolodexName}:`)
         this.contactList.forEach((contact: Contact) => console.log(`\nName: ${contact.Name}\nPhone: ${contact.Phone}`))
     }
     

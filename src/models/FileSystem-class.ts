@@ -9,15 +9,15 @@ class FileSystem {
         return new Promise((resolve, reject) => {
             
             fs.readFile(
-                `../rolodexi/${rolodexname}.json`,
+                `rolodexi/${rolodexname}.json`,
                 'utf8',
                 (err, data) => {
                     
-                    if (err) {
-                        reject(err);
-                    } 
+                    // if (err) {
+                    //     reject(err);
+                    // } 
                     
-                    else if (data === 'undefined' || data === undefined) {
+                    if (data === 'undefined' || data === undefined) {
                         resolve([]);
                     }
                     
@@ -30,7 +30,7 @@ class FileSystem {
         })
     }
     
-    saveContacts(rolodex: ContactBook) 
+    saveContacts(rolodex: ContactBook): Promise<string> 
     {
         return new Promise(
             (resolve, reject) => 
@@ -38,10 +38,10 @@ class FileSystem {
                 const jsonContactList = JSON.stringify(rolodex.contactList);
                 
                 fs.writeFile(
-                    `../rolodexi/${rolodex.rolodexName}.json`,
+                    `rolodexi/${rolodex.rolodexName}.json`,
                     jsonContactList,
                     (err) => {
-                        if (err) reject(err);
+                        // if (err) reject(err);
                         resolve('Saved contacts!');
                     }
                 )
