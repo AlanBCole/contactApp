@@ -4,39 +4,36 @@ import readline from 'readline';
 import fs from 'fs';
 
 
+let rl = readline.createInterface(
+    {
+        input: process.stdin,
+        output: process.stdout
+    }
+);
+
 const alansRolodex = new ContactBook('alans-rolodex');
-const aNewContact = new Contact('Jerry', '303.333.3030')
 
-alansRolodex.addContact(aNewContact);
-// alansRolodex.printContacts();
+askAQuestion('Would you like to create or search? (type create or search): ')
+.then(answer => {
+    console.log(alansRolodex);
+    console.log(answer)
+});
+// const aNewContact = new Contact('Jerry', '303.333.3030')
+// alansRolodex.addContact(aNewContact);
 
 
 
-
-
-// const rolodex = new ContactBook();
-// rolodex.ContactList = rolodex.getContacts();
-// const alan = new Contact('Alan', '333-333-3333');
-// const leRoi = new Contact('Le Roi', '999-999-9999');
-
-// rolodex.addContact(alan);
-// rolodex.addContact(leRoi);
-
-// let rl = readline.createInterface(
-//     {
-//         input: process.stdin,
-//         output: process.stdout
-//     }
-// );
-
-// function askAQuestion(question: string): Promise<string> {
-//     return new Promise((resolve, reject) => {
-//         rl.question(
-//             '\n*-*-*-*-*-*-*-*-*\nWould you like to create a new contact or search for a contact? (type create or search)',
-//             (answer) => resolve(answer)
-//         );        
-//     })
-// }
+function askAQuestion(question: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        rl.question(
+            `\n*-*-*-*-*-*-*-*-*\n${question}`,
+            (answer) => {
+                rl.close();
+                resolve(answer);
+            }
+        );        
+    })
+}
 
 
 // addContact.question("\n*-*-*-*-*\nWould you like to add a new contact? (Y/N)", (response: string) => {
