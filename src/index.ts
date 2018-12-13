@@ -1,5 +1,5 @@
-import { ContactBook } from './models/ContactBook-class';
-import { Contact } from './models/Contact-class';
+import { Rolodex } from './models/Rolodex';
+import { Contact } from './models/Contact';
 import readline from 'readline';
 import fs from 'fs';
 
@@ -11,7 +11,7 @@ let rl = readline.createInterface(
     }
 );
 
-const alansRolodex = new ContactBook('alans-rolodex');
+const alansRolodex = new Rolodex('alans-rolodex');
 
 askAQuestion('Would you like to create or search? (type create or search): ')
 .then(answer => {

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import { Contact } from './Contact-class';
-import { ContactBook } from './ContactBook-class';
+import { Contact } from './Contact';
+import { Rolodex } from './Rolodex';
 
 class FileSystem {
     
@@ -30,7 +30,7 @@ class FileSystem {
         })
     }
     
-    saveContacts(rolodex: ContactBook): Promise<string> 
+    saveContacts(rolodex: Rolodex): Promise<string> 
     {
         return new Promise(
             (resolve, reject) => 
@@ -41,7 +41,11 @@ class FileSystem {
                     `rolodexi/${rolodex.rolodexName}.json`,
                     jsonContactList,
                     (err) => {
-                        // if (err) reject(err);
+                        if (err) { 
+                            reject(err)
+                            return;
+                        }
+                        
                         resolve('Saved contacts!');
                     }
                 )

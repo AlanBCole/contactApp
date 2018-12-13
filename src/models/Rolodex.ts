@@ -1,7 +1,7 @@
-import { Contact } from './Contact-class';
-import { fileSystem } from './FileSystem-class';
+import { Contact } from './Contact';
+import { fileSystem } from './FileSystem';
 
-export class ContactBook {
+export class Rolodex {
     
     rolodexName: string;
     private _contactList: Contact[] = [];
