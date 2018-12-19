@@ -22,8 +22,8 @@ class FileSystem {
                     }
                     
                     else {
-                        let file = JSON.parse(data);
-                        resolve(file);
+                        let contacts = JSON.parse(data);
+                        resolve(contacts);
                     }
                 }
             );
@@ -38,7 +38,7 @@ class FileSystem {
                 const jsonContactList = JSON.stringify(rolodex.contactList);
                 
                 fs.writeFile(
-                    `rolodexi/${rolodex.rolodexName}.json`,
+                    `rolodexi/rolodex.json`,
                     jsonContactList,
                     (err) => {
                         if (err) { 
@@ -54,5 +54,5 @@ class FileSystem {
     }
 }
 
-const fileSystem = new FileSystem();
-export { fileSystem };
+const AccessRolodex = new FileSystem();
+export { AccessRolodex };

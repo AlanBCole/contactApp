@@ -1,25 +1,19 @@
 import { Contact } from './Contact';
-import { fileSystem } from './FileSystem';
+import { AccessRolodex } from './FileSystem';
 
 export class Rolodex {
     
-    rolodexName: string;
+    // rolodexName: string;
     private _contactList: Contact[] = [];
     
-    constructor(rolodexName: string)
+    constructor()
     {
-        this.rolodexName = rolodexName;
-        
-        fileSystem.initializeContacts(rolodexName)
+        AccessRolodex.initializeContacts('rolodex')
             .then((contacts: any) => {
-                
-                if (!contacts.length) {
-                    return
-                }
                 
                 this.contactList = contacts;
             })
-            .catch(err => console.log(err, 'initializeContact()'))
+            .catch(err => console.log('Problem with initializeContacts()', err))
     }
     
     get contactList(): Contact[] {
@@ -36,17 +30,18 @@ export class Rolodex {
         this.saveContacts()
             .then((message: any) => {
                 console.log(message);
-                this.printContacts()
+                this.printContacts();
             })
-            .catch(err => console.log(err, 'addContact()'))
+            .catch(err => console.log('Problem with addContact()', err))
     }
 
     printContacts() {
-        console.log(`${this.rolodexName}:`)
-        this.contactList.forEach((contact: Contact) => console.log(`\nName: ${contact.Name}\nPhone: ${contact.Phone}`))
+        // console.log(`${this.rolodexName}:`)
+        this.contactList.forEach((contact: Contact) => console.log(`\nName: ${contact.Name}\nPhone: ${contact.Phone}\nEmail: ${contact.Email}`))
     }
     
     saveContacts() {
-        return fileSystem.saveContacts(this);
+        return AccessRolodex.saveContacts(this)
+            .then(message => console.log(message))
     }
 }

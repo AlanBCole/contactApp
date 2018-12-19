@@ -1,17 +1,17 @@
 {
   "name": "contact",
   "version": "1.0.0",
-  "description": "A contact app built with node and typescript",
+  "description": "A command line contact app built with node and typescript",
   "main": "lib/index.js",
   "types": "lib/index",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "build; prod",
+    "start": "npm run build && npm run prod",
     "prod": "node ./lib/index.js",
     "build": "tsc",
     "dev": "ts-node ./src/index.ts"
   },
-  "keywords": [],
+  "keywords": ["typescript", "node", "Object Oriented Programmig", "Command Line"],
   "author": "Alan Cole",
   "license": "ISC",
   "devDependencies": {
