@@ -25,7 +25,22 @@ export class Rolodex {
     }
     
     addContact(contactObject: Contact) {
-        let newContact = new Contact(contactObject.Name, contactObject.Phone);
+        
+        let newContact: Contact;
+        
+        if (contactObject.Email) 
+        {
+            newContact = new Contact(
+                contactObject.Name,
+                contactObject.Phone,
+                contactObject.Email
+            );
+        }
+        else
+        {
+            newContact = new Contact(contactObject.Name, contactObject.Phone);    
+        }
+        
         this._contactList.push(newContact);
         this.saveContacts()
             .then((message: any) => {

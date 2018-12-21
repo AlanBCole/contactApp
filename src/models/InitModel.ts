@@ -1,13 +1,14 @@
 import { Rolodex } from './Rolodex';
+import { Contact } from './Contact';
 
 export class InitModel {
     command: string;
-    contact: string;
+    contact: Contact;
     rolodex: Rolodex;
     
-    constructor(command: string = '', contact: string = '') {
+    constructor(command: string = '') {
         this.command = command;
-        this.contact = contact;
+        this.contact = new Contact();
         this.rolodex = new Rolodex();
     }
 }

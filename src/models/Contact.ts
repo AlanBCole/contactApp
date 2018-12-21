@@ -4,7 +4,7 @@ export class Contact {
     Phone: string;
     Email: string;
     
-    constructor(name: string, phone: string, email: string = 'no@email.yet') {
+    constructor(name: string = '', phone: string = '', email: string = '') {
         this.Name = name;
         this.Phone = phone;
         this.Email = email;

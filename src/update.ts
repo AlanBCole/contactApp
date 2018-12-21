@@ -1,17 +1,25 @@
 import { Answers } from './models/Answers';
 import { InitModel } from './models/InitModel';
+import { askQuestion } from './AskQuestion';
 
 export function update(model: InitModel) {
-    const { command, contact, rolodex } = model;
     
-    switch (command) {
+    switch (model.command) {
+        
         case '':
-            //startBlank();
             console.log('Starting a blank rolodex...');
+            
+            askQuestion(`What would you like to do? You can type 'new', 'edit', 'list', 'search', 'help', or 'exit'.`)
+                .then((answer: string) => {
+                    model.command = answer;
+                    update(model);
+                }
+            )
+            
             break;
             
         case Answers.New:
-            // newContact();
+            // askAQuestion('')
             console.log('Will create a new contact...');
             break;
         
@@ -27,7 +35,7 @@ export function update(model: InitModel) {
             
         case Answers.Edit:
             // editContact(); // add this to rolodex class
-            console.log(`Editing ${contact}'s information...`);
+            console.log(`Editing ${model.contact.Name}'s information...`);
             break;
             
         case Answers.Help:
@@ -40,7 +48,7 @@ export function update(model: InitModel) {
             break;
             
         default:
-            console.log(`'${command}' is not (yet?) a command.\nType 'help' to see a list of accepted commands.`);
+            console.log(`'${model.command}' is not (yet?) a command.\nType 'help' to see a list of accepted commands.`);
             break;
             
     }
