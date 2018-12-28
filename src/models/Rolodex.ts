@@ -26,26 +26,17 @@ export class Rolodex {
     
     addContact(contactObject: Contact) {
         
-        let newContact: Contact;
-        
-        if (contactObject.Email) 
-        {
-            newContact = new Contact(
-                contactObject.Name,
-                contactObject.Phone,
-                contactObject.Email
-            );
-        }
-        else
-        {
-            newContact = new Contact(contactObject.Name, contactObject.Phone);    
-        }
+        let newContact = new Contact(
+            contactObject.Name,
+            contactObject.Phone,
+            contactObject.Email
+        );
         
         this._contactList.push(newContact);
         this.saveContacts()
-            .then((message: any) => {
-                console.log(message);
-                this.printContacts();
+            .then(() => {
+                
+                console.log(`Added new contact:\n${JSON.stringify(newContact, null, 2)}`);
             })
             .catch(err => console.log('Problem with addContact()', err))
     }

@@ -9,5 +9,4 @@ export class Contact {
         this.Phone = phone;
         this.Email = email;
     }
-
 }

@@ -9,7 +9,7 @@ class FileSystem {
         return new Promise((resolve, reject) => {
             
             fs.readFile(
-                `rolodexi/${rolodexname}.json`,
+                `rolodex/${rolodexname}.json`,
                 'utf8',
                 (err, data) => {
                     
@@ -38,7 +38,7 @@ class FileSystem {
                 const jsonContactList = JSON.stringify(rolodex.contactList);
                 
                 fs.writeFile(
-                    `rolodexi/rolodex.json`,
+                    `rolodex/rolodex.json`,
                     jsonContactList,
                     (err) => {
                         if (err) { 
