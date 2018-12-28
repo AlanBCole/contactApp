@@ -15,7 +15,6 @@ switch (args.length) {
         break;
 }
 
-console.log('The model: ', model);
 update(model);
 
 
