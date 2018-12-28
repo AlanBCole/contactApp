@@ -11,7 +11,7 @@ export function update(model: InitModel = new InitModel()) {
         
         case '':
             
-            askQuestion(`What would you like to do? You can type 'new', 'edit', 'list', 'search', 'help', or 'exit'. >  `)
+            askQuestion(`What would you like to do? You can type 'new', 'edit', 'list', 'search', 'help', or 'exit'. > `)
                 .then((answer: string) => {
                     model.command = answer;
                     update(model);
@@ -41,8 +41,6 @@ export function update(model: InitModel = new InitModel()) {
                         .then( email => {
                             model.contact.Email = email;
                             model.rolodex.addContact(model.contact);
-                            // model.command = '';
-                            // model.contact = new Contact();
                             
                             update();
                         });
@@ -88,7 +86,6 @@ export function update(model: InitModel = new InitModel()) {
             
             update();
             break;
-            
     }
     
 }
