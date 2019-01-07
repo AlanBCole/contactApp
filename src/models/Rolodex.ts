@@ -43,7 +43,7 @@ export class Rolodex {
 
     printContacts() {
         // console.log(`${this.rolodexName}:`)
-        this.contactList.forEach((contact: Contact) => console.log(`\nName: ${contact.Name}\nPhone: ${contact.Phone}\nEmail: ${contact.Email}`))
+        this._contactList.forEach((contact: Contact) => console.log(`\nName: ${contact.Name}\nPhone: ${contact.Phone}\nEmail: ${contact.Email}`))
     }
     
     saveContacts() {
