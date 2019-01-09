@@ -2,6 +2,7 @@ import { Answers } from './models/Answers';
 import { InitModel } from './models/InitModel';
 import { Contact } from './models/Contact';
 import { Rolodex } from './models/Rolodex';
+import { searchResponse } from './models/interfaces';
 import { askQuestion } from './AskQuestion';
 
 
@@ -19,7 +20,8 @@ export function update(model: InitModel = new InitModel()) {
             )
             
             break;
-            
+        
+        // cases exposed to users
         case Answers.New:
             
             model.command = Answers.GetName;
@@ -27,6 +29,62 @@ export function update(model: InitModel = new InitModel()) {
             
             break;
         
+        case Answers.Search:
+            
+            askQuestion('What is the name of the contact you are looking for? > ')
+            .then( (name: string) => {
+                const response = model.rolodex.searchContacts(name);
+                
+                console.log(response);
+                model.contact = response.contact;
+                model.editingIndex = response.editingIndex;
+                model.command = '';
+
+                update(model);
+            });
+            
+            break;
+            
+        case Answers.List:
+            
+            console.log('Printing all your contacts...');
+            model.rolodex.printContacts();
+            model.command = '';
+            
+            update(model);
+            
+            break;
+            
+        case Answers.Edit:
+            
+            // editContact(); // add this to rolodex class
+            askQuestion('What is the name of the contact you want to edit? > ')
+            .then( (name: string) => {
+                const response: searchResponse = model.rolodex.searchContacts(name);
+                
+                // console.log(response);
+                model.contact = response.contact;
+                model.editingIndex = response.editingIndex;
+                model.command = Answers.GetName;
+                
+                update(model);
+            })
+            
+            
+            break;
+            
+        case Answers.Help:
+            
+            // print a bunch of helpful stuff
+            console.log('Getting helpful information (if there is any)...');
+            break;
+            
+        case Answers.Exit:
+            
+            console.log('Exiting app...');
+            break;
+            
+        // cases not exposed to users.    
         case Answers.GetName:
             
             askQuestion(`${model.command.toUpperCase()}: Type the contact's name? (or press enter) > `)
@@ -34,7 +92,7 @@ export function update(model: InitModel = new InitModel()) {
                 
                 model.command = Answers.GetPhone;
                 
-                if (name)
+                if (name !== '')
                 {
                     model.contact.Name = name;
                     update(model);
@@ -54,7 +112,7 @@ export function update(model: InitModel = new InitModel()) {
                 
                 model.command = Answers.GetEmail
                 
-                if (phone)
+                if (phone !== '')
                 {
                     model.contact.Phone = phone;
                     update(model);
@@ -87,14 +145,15 @@ export function update(model: InitModel = new InitModel()) {
             break;
         
         case Answers.Save:
-            console.log(model.contact);
+            
+            console.log('\nIn Update save case: ', model.contact);
             
             askQuestion(`${model.command.toUpperCase()}: Do you want to save this contact? (type 'yes' or 'no') > `)
             .then((answer: string) => {
                 if (answer.toLowerCase() === 'yes')
                 {
                     console.log(`Saving ${model.contact.Name}'s information.`);
-                    model.rolodex.addContact(model.contact);        
+                    model.rolodex.addContact(model.contact, model.editingIndex);        
                 }
                 else
                 {
@@ -104,54 +163,6 @@ export function update(model: InitModel = new InitModel()) {
                 update();
             })
             
-            break;
-            
-        case Answers.Search:
-            
-            askQuestion('What is the name of the contact you are looking for? > ')
-            .then( (name: string) => {
-                const contacts = model.rolodex.contactList;
-                const foundContact = contacts.filter((contact: Contact) => contact.Name.toLowerCase() === name.toLowerCase());
-                
-                if (foundContact[0])
-                {
-                    model.contact = foundContact[0];
-                    model.command = Answers.GetName;
-                    update(model);
-                }
-                else
-                {
-                    console.log(`No contact with the name ${name} was found.`);
-                    update();
-                }
-            });
-            break;
-            
-        case Answers.List:
-            
-            console.log('Printing all your contacts...');
-            model.rolodex.printContacts();
-            model.command = '';
-            
-            update(model);
-            
-            break;
-            
-        case Answers.Edit:
-            
-            // editContact(); // add this to rolodex class
-            console.log(`Editing ${model.contact.Name}'s information...`);
-            break;
-            
-        case Answers.Help:
-            
-            // print a bunch of helpful stuff
-            console.log('Getting helpful information (if there is any)...');
-            break;
-            
-        case Answers.Exit:
-            
-            console.log('Exiting app...');
             break;
             
         default:

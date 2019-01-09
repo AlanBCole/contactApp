@@ -3,6 +3,7 @@ import { Contact } from './Contact';
 
 export class InitModel {
     command: string;
+    editingIndex: number = -1;
     contact: Contact;
     rolodex: Rolodex;
     
