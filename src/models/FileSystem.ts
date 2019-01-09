@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import { Contact } from './Contact';
 import { Rolodex } from './Rolodex';
 
-class FileSystem {
+export class FileSystem {
     
-    initializeContacts(rolodexname: string) 
+    static initializeContacts(rolodexname: string) 
     {
         return new Promise((resolve, reject) => {
             
@@ -30,7 +30,7 @@ class FileSystem {
         })
     }
     
-    saveContacts(rolodex: Rolodex): Promise<string> 
+    static saveContacts(rolodex: Rolodex): Promise<string> 
     {
         return new Promise(
             (resolve, reject) => 
@@ -38,7 +38,7 @@ class FileSystem {
                 const jsonContactList = JSON.stringify(rolodex.contactList);
                 
                 fs.writeFile(
-                    `rolodex/rolodex.json`,
+                    `rolodex/${rolodex.rolodexName}.json`,
                     jsonContactList,
                     (err) => {
                         if (err) { 
@@ -54,5 +54,5 @@ class FileSystem {
     }
 }
 
-const AccessRolodex = new FileSystem();
-export { AccessRolodex };
+// const AccessRolodex = new FileSystem();
+// export { AccessRolodex };

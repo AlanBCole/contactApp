@@ -3,16 +3,17 @@ import { InitModel } from './models/InitModel';
 import { Contact } from './models/Contact';
 import { Rolodex } from './models/Rolodex';
 import { searchResponse } from './models/interfaces';
-import { askQuestion } from './AskQuestion';
+import { askQuestion, confirmCommand } from './Questions';
 
 
 export function update(model: InitModel = new InitModel()) {
+    // console.log('\n\nUpdate called ', model, '\n');
     
     switch (model.command) {
         
         case '':
             
-            askQuestion(`What would you like to do? You can type 'new', 'edit', 'list', 'search', 'help', or 'exit'. > `)
+            askQuestion(`What would you like to do? You can type 'new', 'edit', 'delete', 'list', 'search', 'help', or 'exit'. > `)
                 .then((answer: string) => {
                     model.command = answer;
                     update(model);
@@ -35,12 +36,11 @@ export function update(model: InitModel = new InitModel()) {
             .then( (name: string) => {
                 const response = model.rolodex.searchContacts(name);
                 
-                console.log(response);
                 model.contact = response.contact;
                 model.editingIndex = response.editingIndex;
                 model.command = '';
 
-                update(model);
+                update();
             });
             
             break;
@@ -62,7 +62,6 @@ export function update(model: InitModel = new InitModel()) {
             .then( (name: string) => {
                 const response: searchResponse = model.rolodex.searchContacts(name);
                 
-                // console.log(response);
                 model.contact = response.contact;
                 model.editingIndex = response.editingIndex;
                 model.command = Answers.GetName;
@@ -70,6 +69,20 @@ export function update(model: InitModel = new InitModel()) {
                 update(model);
             })
             
+            break;
+            
+        case Answers.Delete:
+            
+            askQuestion('What is the name of the contact you want to delete? > ')
+            .then( (name: string) => {
+                const response: searchResponse = model.rolodex.searchContacts(name);
+            
+                model.contact = response.contact;
+                model.editingIndex = response.editingIndex;
+                model.command = Answers.Remove;
+                
+                update(model);
+            })
             
             break;
             
@@ -146,19 +159,20 @@ export function update(model: InitModel = new InitModel()) {
         
         case Answers.Save:
             
-            console.log('\nIn Update save case: ', model.contact);
+            confirmCommand(model)
+            .then(() => {
+                model.rolodex.saveContact(model.contact, model.editingIndex);
+                
+                update();
+            })
             
-            askQuestion(`${model.command.toUpperCase()}: Do you want to save this contact? (type 'yes' or 'no') > `)
-            .then((answer: string) => {
-                if (answer.toLowerCase() === 'yes')
-                {
-                    console.log(`Saving ${model.contact.Name}'s information.`);
-                    model.rolodex.addContact(model.contact, model.editingIndex);        
-                }
-                else
-                {
-                    console.log('Not saving this contact.');
-                }
+            break;
+            
+        case Answers.Remove:
+            
+            confirmCommand(model)
+            .then(() => {
+                model.rolodex.deleteContact(model.editingIndex);
                 
                 update();
             })
@@ -172,5 +186,4 @@ export function update(model: InitModel = new InitModel()) {
             update();
             break;
     }
-    
 }

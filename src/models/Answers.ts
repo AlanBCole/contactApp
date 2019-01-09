@@ -7,6 +7,8 @@ export enum Answers {
     Save = "save",
     List = "list",
     Edit = "edit",
+    Delete = "delete",
+    Remove = "remove",
     Help = "help",
     Exit = "exit"
 }

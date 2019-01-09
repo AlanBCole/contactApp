@@ -1,16 +1,16 @@
 import { Contact } from './Contact';
-import { AccessRolodex } from './FileSystem';
+import { FileSystem as AccessRolodex } from './FileSystem';
 import { InitModel } from './InitModel';
 import { searchResponse } from './interfaces';
 
 export class Rolodex {
     
-    // rolodexName: string;
+    rolodexName = 'rolodex';
     private _contactList: Contact[] = [];
     
     constructor()
     {
-        AccessRolodex.initializeContacts('rolodex')
+        AccessRolodex.initializeContacts(this.rolodexName)
             .then((contacts: any) => {
                 
                 this.contactList = contacts;
@@ -26,12 +26,12 @@ export class Rolodex {
         this._contactList = contacts
     }
     
-    addContact(contactObject: Contact, editingIndex: number) {
+    saveContact(contactObject: Contact, editingIndex: number) {
         
         if (editingIndex > -1)
         {
             this._contactList[editingIndex] = contactObject;
-            this.saveContacts()
+            this.saveAllContacts()
             .then(() => {
                 
                 console.log('Saved changes to contact:\n');
@@ -49,14 +49,19 @@ export class Rolodex {
         );
         
         this._contactList.push(newContact);
-        this.saveContacts()
+        this.saveAllContacts()
         .then(() => {
             
             console.log('Added new contact:\n');
             console.log(`Name: ${newContact.Name}\nPhone: ${newContact.Phone}\nEmail: ${newContact.Email}`);
         })
-        .catch(err => console.log('Problem with addContact()', err))
+        .catch(err => console.log('Problem with saveContact()', err))
         }
+    }
+    
+    deleteContact(editingIndex: number) {
+        this._contactList.splice(editingIndex, 1);
+        this.saveAllContacts();
     }
     
     searchContacts(name: string): searchResponse {
@@ -89,7 +94,7 @@ export class Rolodex {
         this._contactList.forEach((contact: Contact) => console.log(`\nName: ${contact.Name}\nPhone: ${contact.Phone}\nEmail: ${contact.Email}`))
     }
     
-    saveContacts() {
+    saveAllContacts() {
         return AccessRolodex.saveContacts(this)
             .then(message => console.log(message))
     }
